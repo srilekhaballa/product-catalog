@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addProduct(@RequestBody ProductDto productDto) throws ProductNotExistException{
+    public ResponseEntity<?> addProduct(@RequestBody ProductDto productDto) throws ProductNotExistException {
         Optional<Category> optionalCategory = categoryService.readCategory(productDto.getCategoryId());
         if (!optionalCategory.isPresent()) {
             return new ResponseEntity<String>( "category is invalid", HttpStatus.CONFLICT);

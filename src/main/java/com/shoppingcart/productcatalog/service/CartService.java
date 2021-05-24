@@ -30,12 +30,14 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    public void addToCart(AddCartDto addToCartDto) {
+    public Cart addToCart(AddCartDto addToCartDto) {
         Cart cart = new Cart(addToCartDto);
         cart.setCreatedBy("sri");
         cart.setCreatedOn(date);
         cart.setUpdatedBy("sri");
         cart.setUpdatedOn(date);
         cartRepository.save(cart);
+        return cart;
     }
+
 }

@@ -3,6 +3,24 @@ package com.shoppingcart.productcatalog.dto.product;
 import java.util.Date;
 
 public class ProductDto {
+	
+	public ProductDto(Integer productId, String productName, String description, String createdBy, Date createdOn,
+			String updatedBy, Date updatedOn, Integer categoryId) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.description = description;
+		this.createdBy = createdBy;
+		this.createdOn = createdOn;
+		this.updatedBy = updatedBy;
+		this.updatedOn = updatedOn;
+		this.categoryId = categoryId;
+	}
+
+	public ProductDto() {
+
+	}
+
 	private Integer productId;
 	private String productName;
 	private String description;
@@ -75,6 +93,5 @@ public class ProductDto {
 	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-
 	
 }

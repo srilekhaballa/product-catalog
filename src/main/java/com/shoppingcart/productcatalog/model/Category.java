@@ -42,6 +42,10 @@ public class Category {
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Product> product;
 
+	public Category(int i, String string, String string2, String string3, Date date, String string4, Date date2) {
+
+	}
+
 	public Integer getCategoryId() {
 		return categoryId;
 	}
@@ -112,5 +116,8 @@ public class Category {
 				+ ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", updatedBy=" + updatedBy + ", updatedOn="
 				+ updatedOn + ", product=" + product + "]";
 	}
-
+	
+	public Category() {
+		
+	}
 }

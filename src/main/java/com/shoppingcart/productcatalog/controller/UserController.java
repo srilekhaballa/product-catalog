@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shoppingcart.productcatalog.dto.user.SignInDto;
 import com.shoppingcart.productcatalog.dto.user.SignupDto;
 import com.shoppingcart.productcatalog.repository.UserRepository;
+import com.shoppingcart.productcatalog.service.AuthenticationService;
 import com.shoppingcart.productcatalog.service.UserService;
 import com.shoppingcart.productcatalog.utils.Helper;
 
@@ -28,10 +29,14 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+    AuthenticationService authenticationService;
+	
 	Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/get")
-	public ResponseEntity<?> findAllUser() throws Exception {
+	public ResponseEntity<?> findAllUser(@RequestParam("token") String token) throws Exception {
+		authenticationService.authenticate(token);
 		return new  ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
 	}
 

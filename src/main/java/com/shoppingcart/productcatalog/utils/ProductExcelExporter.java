@@ -3,17 +3,14 @@ package com.shoppingcart.productcatalog.utils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import com.shoppingcart.productcatalog.model.Product;
 
 public class ProductExcelExporter {
@@ -26,18 +23,14 @@ public ProductExcelExporter(List<Product> listProducts) {
     workbook = new XSSFWorkbook();
 }
 
-
 private void writeHeaderLine() {
     sheet = workbook.createSheet("Product");
-     
     XSSFRow row = sheet.createRow(0);
-     
     CellStyle style = workbook.createCellStyle();
     XSSFFont font = workbook.createFont();
     font.setBold(true);
     font.setFontHeight(16);
     style.setFont(font);
-     
     createCell(row, 0, "product Id", style);      
     createCell(row, 1, "product Name",style);       
     createCell(row, 2, "description", style);    
@@ -63,16 +56,13 @@ private void createCell(XSSFRow row, int columnCount, Object value, CellStyle st
  
 private void writeDataLines() {
     int rowCount = 1;
-
     CellStyle style = workbook.createCellStyle();
     XSSFFont font = workbook.createFont();
     font.setFontHeight(14);
     style.setFont(font);
-             
     for (Product product : listProducts) {
         XSSFRow row = sheet.createRow(rowCount++);
         int columnCount = 0;
-         
         createCell(row, columnCount++, product.getProductId(), style);
         createCell(row, columnCount++, product.getProductName(), style);
         createCell(row, columnCount++, product.getDescription(), style);

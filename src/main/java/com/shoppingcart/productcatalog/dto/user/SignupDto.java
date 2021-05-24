@@ -7,6 +7,16 @@ public class SignupDto {
 	private String password;
 	private Integer roleId;
 	private Integer cartId;
+	
+	public SignupDto(String firstName, String lastName, String email, String password, Integer roleId, Integer cartId) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.roleId = roleId;
+		this.cartId = cartId;
+	}
 
 	public Integer getCartId() {
 		return cartId;

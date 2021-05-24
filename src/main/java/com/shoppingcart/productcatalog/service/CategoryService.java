@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shoppingcart.productcatalog.model.Category;
 import com.shoppingcart.productcatalog.repository.CategoryRepository;
@@ -25,12 +24,13 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
-	public void createCategory(Category category) {
+	public Category createCategory(Category category) {
 		categoryRepository.save(category);
 		category.setCreatedBy("sri");
 		category.setCreatedOn(date);
 		category.setUpdatedBy("sri");
 		category.setUpdatedOn(date);
+		return category;
 	}
 
 	public Category readCategory(String categoryName) {
@@ -41,7 +41,7 @@ public class CategoryService {
 		return categoryRepository.findById(categoryId);
 	}
 
-	public void updateCategory(Integer categoryID, Category newCategory) {
+	public Category updateCategory(Integer categoryID, Category newCategory) {
 		Category category = categoryRepository.findById(categoryID).get();
 		category.setCategoryName(newCategory.getCategoryName());
 		category.setDescription(newCategory.getDescription());
@@ -51,5 +51,6 @@ public class CategoryService {
 		category.setUpdatedBy("sri");
 		category.setUpdatedOn(date);
 		categoryRepository.save(category);
+		return category;
 	}
 }

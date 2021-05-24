@@ -9,6 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.shoppingcart.productcatalog.config.MessageStrings;
@@ -16,7 +17,6 @@ import com.shoppingcart.productcatalog.dto.ResponseDto;
 import com.shoppingcart.productcatalog.dto.user.SignInDto;
 import com.shoppingcart.productcatalog.dto.user.SignupDto;
 import com.shoppingcart.productcatalog.dto.user.UserCreateDto;
-import com.shoppingcart.productcatalog.enums.ResponseStatus;
 import com.shoppingcart.productcatalog.exceptions.AuthenticationFailException;
 import com.shoppingcart.productcatalog.exceptions.CustomException;
 import com.shoppingcart.productcatalog.exceptions.ProductNotExistException;
@@ -58,7 +58,7 @@ public class UserService {
 			user.setUpdatedBy("sri");
 			user.setUpdatedOn(date);
 			createdUser = userRepository.save(user);
-			return new ResponseDto(ResponseStatus.success.toString(), USER_CREATED);
+			return new ResponseDto(HttpStatus.CREATED, USER_CREATED);
 		} catch (Exception e) {
 			throw new CustomException(e.getMessage());
 		}
@@ -87,16 +87,17 @@ public class UserService {
 		return myHash;
 	}
 
-	public ResponseDto createUser( UserCreateDto userCreateDto)
+	public ResponseDto createUser(UserCreateDto userCreateDto)
 			throws CustomException, AuthenticationFailException {
 		User creatingUser = new User(); 
-		if (!canCrudUser(creatingUser.getRoleId())) {
+		if (canCrudUser(userCreateDto.getRoleId())) {
 			throw new AuthenticationFailException(MessageStrings.USER_NOT_PERMITTED);
 		}
 		String encryptedPassword = userCreateDto.getPassword();
 		try {
 			encryptedPassword = hashPassword(userCreateDto.getPassword());
-		} catch (NoSuchAlgorithmException e) {
+		} 
+		catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			logger.error("hashing password failed {}", e.getMessage());
 		}
@@ -110,8 +111,7 @@ public class UserService {
 			user.setUpdatedBy("sri");
 			user.setUpdatedOn(date);
 			createdUser = userRepository.save(user);
-			
-			return new ResponseDto(ResponseStatus.success.toString(), USER_CREATED);
+			return new ResponseDto(HttpStatus.CREATED, USER_CREATED);
 		} catch (Exception e) {
 			throw new CustomException(e.getMessage());
 		}

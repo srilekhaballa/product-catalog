@@ -27,7 +27,4 @@ public class ResponseDto {
 		this.message = message;
 	}
 
-	public ResponseDto(String string, String userCreated) {
-		
-	}
 }

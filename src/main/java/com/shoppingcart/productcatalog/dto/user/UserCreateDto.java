@@ -7,12 +7,30 @@ public class UserCreateDto {
 	private String email;
 	private Integer roleId;
 	private Integer cartId;
+	
 	public Integer getCartId() {
 		return cartId;
 	}
 
 	public void setCartId(Integer cartId) {
 		this.cartId = cartId;
+	}
+
+	public UserCreateDto(String firstName, String lastName, String email, Integer roleId, Integer cartId,
+			String password) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.roleId = roleId;
+		this.cartId = cartId;
+		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "UserCreateDto [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", roleId="
+				+ roleId + ", cartId=" + cartId + ", password=" + password + "]";
 	}
 
 	private String password;

@@ -1,6 +1,7 @@
 package com.shoppingcart.productcatalog.model;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -131,6 +132,13 @@ public class Cart {
 		this.productId=addToCartDto.getProductId();
 		this.quantity=addToCartDto.getQuantity();
 		this.userId=addToCartDto.getUserId();
+	}
+
+	public Cart(int i, int j, int k, int l) {
+		this.cartId=i;
+		this.productId=j;
+		this.quantity=k;
+		this.userId=l;
 	}
 	
 }

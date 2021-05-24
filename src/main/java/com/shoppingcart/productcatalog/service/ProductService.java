@@ -49,15 +49,17 @@ public class ProductService {
         return product;
     }
 
-    public void addProduct(ProductDto productDto, Category category) {
+    public Product addProduct(ProductDto productDto, Category category) {
         Product product = getProductFromDto(productDto, category);
         productRepository.save(product);
+        return product;
     }
 
-    public void updateProduct(Integer productID, ProductDto productDto, Category category) {
+    public Product updateProduct(Integer productID, ProductDto productDto, Category category) {
         Product product = getProductFromDto(productDto, category);
         product.setProductId(productID);
         productRepository.save(product);
+        return product;
     }
     
     public Product getProductById(Integer productId) throws ProductNotExistException {
