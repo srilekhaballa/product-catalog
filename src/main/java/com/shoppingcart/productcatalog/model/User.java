@@ -1,6 +1,11 @@
 package com.shoppingcart.productcatalog.model;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "user")
@@ -42,7 +51,19 @@ public class User {
     @Column(name = "updated_by")
     private String updatedBy;
     
-    public String getUpdatedBy() {
+    @Column(name = "timezone")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private String timezone;
+    
+    public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
+	}
+
+	public String getUpdatedBy() {
 		return updatedBy;
 	}
 
@@ -55,6 +76,10 @@ public class User {
 	}
 
 	public void setUpdatedOn(Date updatedOn) {
+//		Date date1 = new Date();
+//		ZonedDateTime ofInstant = ZonedDateTime.ofInstant(date1.toInstant(), ZoneId.of(timezone));
+//		Instant instant = ofInstant.toInstant();
+//		Date date = Date.from(instant);
 		this.updatedOn = updatedOn;
 	}
 
@@ -119,7 +144,7 @@ public class User {
     }
     
 	public User(Integer userId, String firstName, String lastName, String email, String password, String createdBy,
-			Date createdOn, String updatedBy, Date updatedOn, Integer roleId, Role role) {
+			Date createdOn, String updatedBy, Date updatedOn,String timezone, Integer roleId, Role role) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -130,6 +155,7 @@ public class User {
 		this.createdOn = createdOn;
 		this.updatedBy = updatedBy;
 		this.updatedOn = updatedOn;
+		this.timezone=timezone;
 		this.roleId = roleId;
 		this.role = role;
 	}
@@ -138,7 +164,7 @@ public class User {
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", createdBy=" + createdBy + ", createdOn=" + createdOn + ", updatedBy="
-				+ updatedBy + ", updatedOn=" + updatedOn + ",  roleId=" + roleId + ", role="
+				+ updatedBy + ", updatedOn=" + updatedOn + ",  roleId=" + roleId +", timezone="+ timezone + ", role="
 				+ role + "]";
 	}
 
@@ -151,10 +177,17 @@ public class User {
 	}
 
 	public Date getCreatedOn() {
+		
 		return createdOn;
 	}
-
+	
+	
 	public void setCreatedOn(Date createdOn) {
+		
+//		Date date1 = new Date();
+//		ZonedDateTime ofInstant = ZonedDateTime.ofInstant(date1.toInstant(), ZoneId.of(timezone));
+//		Instant instant = ofInstant.toInstant();
+//		Date date = Date.from(instant);
 		this.createdOn = createdOn;
 	}
 
@@ -171,12 +204,13 @@ public class User {
 		
 	}
 
-	public User(String firstName, String lastName,String email,Integer roleId,String password ) {
+	public User(String firstName, String lastName,String email,Integer roleId,String password ,String timezone) {
     	this.firstName=firstName;
     	this.lastName=lastName;
     	this.email=email;
     	this.roleId=roleId;
     	this.password=password;
+    	this.timezone=timezone;
     }
     
 }

@@ -7,8 +7,9 @@ public class SignupDto {
 	private String password;
 	private Integer roleId;
 	private Integer cartId;
+	private String timezone;
 	
-	public SignupDto(String firstName, String lastName, String email, String password, Integer roleId, Integer cartId) {
+	public SignupDto(String firstName, String lastName, String email, String password, Integer roleId, Integer cartId,String timezone) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -16,6 +17,15 @@ public class SignupDto {
 		this.password = password;
 		this.roleId = roleId;
 		this.cartId = cartId;
+		this.timezone=timezone;
+	}
+
+	public String getTimezone() {
+		return timezone;
+	}
+
+	public void setTimezone(String timezone) {
+		this.timezone = timezone;
 	}
 
 	public Integer getCartId() {

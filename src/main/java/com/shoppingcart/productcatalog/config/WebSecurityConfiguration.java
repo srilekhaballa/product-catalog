@@ -11,13 +11,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import com.shoppingcart.productcatalog.service.CustomUserDetailsService;
+
+import com.shoppingcart.productcatalog.utils.CustomUserDetailsService;
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 	@Configuration
@@ -37,7 +41,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http.csrf().disable().authorizeRequests()
 	                .antMatchers("/**").permitAll()
-	                .anyRequest().authenticated().and().cors().configurationSource(corsConfiguration());
+	                .anyRequest().authenticated().and().exceptionHandling()
+	                .authenticationEntryPoint(unauthorizedHandler).and().
+	        		// make sure we use stateless session; session won't be used to
+	        		// store user's state.
+	        		sessionManagement()
+	        		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+//	         		Add a filter to validate the tokens with every request
+	        		http.addFilterBefore(customJwtAuthenticationFilter, 
+	        		UsernamePasswordAuthenticationFilter.class);
+	                //and().cors().configurationSource(corsConfiguration());
 	    }
 
 	    @Bean
@@ -82,6 +96,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 	    @Override
 	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	        auth.userDetailsService(customUserDetailsService).passwordEncoder(encoder());
+	        auth
+            .inMemoryAuthentication()
+                .withUser("thomas")
+                .password("password")
+                .roles("USER")
+            .and()
+                .withUser("joe")
+                .password("password")
+                .roles("USER");
 	    }
 	} 
 

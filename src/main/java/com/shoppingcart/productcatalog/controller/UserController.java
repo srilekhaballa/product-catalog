@@ -35,9 +35,9 @@ public class UserController {
 	Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/get")
-	public ResponseEntity<?> findAllUser(@RequestParam("token") String token) throws Exception {
-		authenticationService.authenticate(token);
-		return new  ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+	public ResponseEntity<?> findAllUser() throws Exception {
+		
+		return new  ResponseEntity<>(userService.findAll(), HttpStatus.OK);
 	}
 
 	@PostMapping("/register")
@@ -48,14 +48,6 @@ public class UserController {
 		return new  ResponseEntity<>(userService.signUp(signupDto), HttpStatus.OK);
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<?> Signin(@RequestBody SignInDto signInDto) throws Exception {
-		if(userRepository.findByEmail(signInDto.getEmail())==null) {
-			return new ResponseEntity<String>("User doesn't exists", HttpStatus.BAD_REQUEST);
-		}
-		return new ResponseEntity<>(userService.signIn(signInDto),HttpStatus.OK);
-	}
-	
 	@GetMapping("/search")
 	public ResponseEntity<?> findUserById(@RequestParam("id") Integer id) throws Exception {
 		if(userRepository.findById(id)==null) {
